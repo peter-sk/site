@@ -39,6 +39,13 @@ jobs:
           cp index.html site/index.html
           touch site/.nojekyll
 
+      - name: Clone landing page
+        if: github.event_name == 'push'
+        run: |
+          git clone https://github.com/schneiderkamplab/dfm-landing-page tmp-landing
+          mkdir -p site
+          cp -rv tmp-landing/docs/* site/
+
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v3
