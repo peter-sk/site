@@ -33,18 +33,16 @@ jobs:
         if: github.event_name == 'push'
         run: uv run mkdocs build
 
-      - name: Copy root index.html and add .nojekyll
+      - name: Add .nojekyll
         if: github.event_name == 'push'
         run: |
-          cp index.html site/index.html
+          mkdir -p site
           touch site/.nojekyll
 
-      - name: Clone landing page
+      - name: Copy landing page
         if: github.event_name == 'push'
-        run: |
-          git clone https://github.com/schneiderkamplab/dfm-landing-page tmp-landing
-          mkdir -p site
-          cp -rv tmp-landing/docs/* site/
+        run:
+          cp -rv landing/ site/
 
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push'

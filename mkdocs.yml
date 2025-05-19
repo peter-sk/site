@@ -49,7 +49,7 @@ markdown_extensions:
 copyright: Copyright &copy; 2023 Danish Foundation Models Project
 
 nav:
-  - About: about.md
+  - About: index.md
   - Models: models.md
   - Datasets:
       - DCC: dcc.md
