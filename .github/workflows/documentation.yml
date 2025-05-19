@@ -1,4 +1,4 @@
-# creates the documentation on pushes it to the gh-pages branch
+# creates the documentation and pushes it to the gh-pages branch
 name: Documentation
 
 on:
@@ -6,7 +6,6 @@ on:
     branches: [main]
   push:
     branches: [main]
-
 
 permissions:
   contents: write
@@ -30,10 +29,24 @@ jobs:
       - name: Dependencies
         run: uv sync
 
-      - name: Build and Deploy
+      - name: Build MkDocs
         if: github.event_name == 'push'
-        run: uv run mkdocs gh-deploy --force
-      
-      - name: Build
+        run: uv run mkdocs build
+
+      - name: Copy root index.html and add .nojekyll
+        if: github.event_name == 'push'
+        run: |
+          cp index.html site/index.html
+          touch site/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+
+      - name: Build (PR only)
         if: github.event_name == 'pull_request'
         run: make build-docs
