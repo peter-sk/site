@@ -42,7 +42,7 @@ jobs:
       - name: Copy landing page
         if: github.event_name == 'push'
         run:
-          cp -rv landing/ site/
+          cp -rv landing/* site/
 
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push'
