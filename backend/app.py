@@ -7,7 +7,7 @@ import json
 import os
 import uuid
 
-app = Flask(__name__, static_folder='docs', static_url_path='')
+app = Flask(__name__, static_folder='landing', static_url_path='')
 app.config['NEWS_FILE'] = os.getenv('NEWS_FILE', 'data/news.jsonl')
 app.config['ADMIN_PASSWORD'] = os.getenv('ADMIN_PASSWORD', 'changeme')
 app.config['CONTACT_FILE'] = os.getenv('CONTACT_FILE', 'data/contact.jsonl')
