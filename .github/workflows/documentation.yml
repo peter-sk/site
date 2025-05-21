@@ -30,18 +30,13 @@ jobs:
         run: uv sync
 
       - name: Build MkDocs
-        if: github.event_name == 'push'
-        run: uv run mkdocs build
+        run: make build-docs
 
-      - name: Add .nojekyll
+      - name: Prepare landing page
         if: github.event_name == 'push'
         run: |
           mkdir -p site
           touch site/.nojekyll
-
-      - name: Copy landing page
-        if: github.event_name == 'push'
-        run:
           cp -rv landing/* site/
 
       - name: Deploy to GitHub Pages
@@ -51,7 +46,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
           publish_branch: gh-pages
-
-      - name: Build (PR only)
-        if: github.event_name == 'pull_request'
-        run: make build-docs
